@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treasure Academy - Web Development Tutorial</title>
+    <style>
+        /* --- General CSS Reset & Variables --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary-color: #1a365d; /* Royal Navy Blue */
+            --accent-color: #d69e2e; /* Warm Gold */
+            --secondary-color: #2b6cb0; /* Academy Blue */
+            --dark-color: #2d3748; /* Dark charcoal */
+            --light-bg: #f7fafc; /* Soft grey background */
+            --white: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-bg);
+        }
+
+        /* --- Header & Branding --- */
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-color);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-size: 1.15rem;
+            color: var(--accent-color); /* Bright gold accent color */
+            font-weight: 700; /* Fully visible bold weight */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            opacity: 1; /* Removed semi-transparency */
+        }
+
+        /* --- Pure CSS Multi-Page Router System --- */
+        /* We hide the radio buttons themselves */
+        input[type="radio"].nav-trigger {
+            display: none;
+        }
+
+        /* Styling our Navigation using Labels that act as buttons */
+        nav {
+            background-color: #1a202c;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        nav .nav-btn {
+            color: var(--white);
+            padding: 1.2rem 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        nav .nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+        }
+
+        /* When a specific radio button is checked, highlight the corresponding navigation label */
+        #tab-home:checked ~ nav label[for="tab-home"],
+        #tab-lessons:checked ~ nav label[for="tab-lessons"],
+        #tab-contact:checked ~ nav label[for="tab-contact"] {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        /* Container & Pages setup */
+        .container {
+            max-width: 1000px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Hide all pages by default */
+        .page-content {
+            display: none;
+        }
+
+        /* Only show the page that corresponds to the checked radio button */
+        #tab-home:checked ~ .container #home-page,
+        #tab-lessons:checked ~ .container #lessons-page,
+        #tab-contact:checked ~ .container #contact-page {
+            display: block;
+        }
+
+        /* --- General Card & Section Styles --- */
+        section {
+            background-color: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            color: #2d3748;
+            margin: 2rem 0 0.5rem 0;
+            font-size: 1.35rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: #4a5568;
+        }
+
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Homepage Module Grid & Teaser Cards --- */
+        .welcome-hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .welcome-hero h2 {
+            border: none;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .module-card {
+            background-color: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .module-card h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+
+        .module-badge {
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .btn-link {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.8rem 1.2rem;
+            text-align: center;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: none;
+            display: block;
+            margin-top: 1.5rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-link:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* --- Educational Content Layouts --- */
+        .module-intro {
+            font-style: italic;
+            color: #4a5568;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Mini-code presentation block styling */
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            color: #c53030;
+        }
+
+        pre {
+            background-color: #2d3748;
+            color: #f7fafc;
+            padding: 1.2rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        /* --- Naturally Integrated Multimedia Elements --- */
+        .media-box {
+            background-color: #f7fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .media-box h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .media-box p {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .image-container {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .image-caption {
+            font-size: 0.85rem;
+            color: #718096;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        video {
+            width: 100%;
+            max-height: 400px;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background-color: #000;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        /* --- Contact Form Styling --- */
+        .form-info {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(43, 108, 176, 0.2);
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #1a202c;
+            color: var(--white);
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: 4rem;
+            border-top: 4px solid var(--accent-color);
+        }
+
+        footer p {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        footer .credits {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CSS Radio Router Inputs (Controls page displays hiddenly) -->
+    <input type="radio" name="nav-switch" id="tab-home" class="nav-trigger" checked>
+    <input type="radio" name="nav-switch" id="tab-lessons" class="nav-trigger">
+    <input type="radio" name="nav-switch" id="tab-contact" class="nav-trigger">
+
+    <!-- Header Banner -->
+    <header>
+        <h1>Treasure Academy</h1>
+        <p>Interactive Web Design & Development Tutorial Hub</p>
+    </header>
+
+    <!-- Navigation Bar (Using standard HTML labels bound to radio button switches) -->
+    <nav>
+        <label class="nav-btn" for="tab-home">Home</label>
+        <label class="nav-btn" for="tab-lessons">Lessons</label>
+        <label class="nav-btn" for="tab-contact">Contact Me</label>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="container">
+
+        <!-- ==================== PAGE 1: HOME PAGE ==================== -->
+        <div id="home-page" class="page-content">
+            <div class="welcome-hero">
+                <h2>Welcome to Web Development 101</h2>
+                <p>Start your journey to becoming a frontend web designer. Below are the three core modules we will study. Click on any module to load the interactive lessons sheet.</p>
+            </div>
+
+            <div class="module-grid">
+                <!-- Module 1 Card -->
+                <div class="module-card">
+                    <div>
+                        <span class="module-badge">Module 1</span>
+                        <h3>Intro to Web</h3>
+                        <p>Learn the foundations of the Internet, client-server models, and how browsers render raw web documents into beautiful interactive pages.</p>
+                    </div>
+                    <label for="tab-lessons" class="btn-link">Start Module 1</label>
+                </div>
+
+                <!-- Module 2 Card -->
+                <div class="module-card">
+                    <div>
+                        <span class="module-badge">Module 2</span>
+                        <h3>HTML Basics</h3>
+                        <p>Dive deep into tags, layouts, lists, semantic code templates, and learn how to structure elements correctly on a page.</p>
+                    </div>
+                    <label for="tab-lessons" class="btn-link">Start Module 2</label>
+                </div>
+
+                <!-- Module 3 Card -->
+                <div class="module-card">
+                    <div>
+                        <span class="module-badge">Module 3</span>
+                        <h3>CSS Design</h3>
+                        <p>Bring structure to life with styling! Study rulesets, properties, fonts, classes, and master modern webpage aesthetics.</p>
+                    </div>
+                    <label for="tab-lessons" class="btn-link">Start Module 3</label>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ==================== PAGE 2: LESSONS PAGE ==================== -->
+        <div id="lessons-page" class="page-content">
+            
+            <!-- Module 1: Introduction to Web Programming -->
+            <section id="mod-intro">
+                <h2>Module 1: Introduction to Web Programming</h2>
+                <p class="module-intro">Before coding, let's understand how websites actually render on your screens.</p>
+                
+                <h3>What is the Web?</h3>
+                <p>Every time you visit a website, communication happens between your computer (the <strong>Client</strong>) and a powerful server machine hosting the physical project files (the <strong>Server</strong>).</p>
+
+                <h3>The Three Pillars of Web Development</h3>
+                <p>Front-end projects are supported by three core technologies working in harmony:</p>
+                <ol>
+                    <li><strong>HTML:</strong> Structural bones.</li>
+                    <li><strong>CSS:</strong> Visual skin and colors.</li>
+                    <li><strong>JavaScript:</strong> Behavior and functional muscles.</li>
+                </ol>
+
+                <!-- Natural Media Integration: Image -->
+                <div class="image-container">
+                    <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop" alt="Coding on Screen" onerror="this.onerror=null; this.src='https://placehold.co/800x450?text=Web+Development+Workspace';">
+                    <span class="image-caption">Fig 1.1: Web developers write source code which browsers interpret into clean user interfaces.</span>
+                </div>
+            </section>
+
+            <!-- Module 2: HTML -->
+            <section id="mod-html">
+                <h2>Module 2: HTML (HyperText Markup Language)</h2>
+                <p class="module-intro">HTML uses tag formatting arrays to build content segments inside your web pages.</p>
+
+                <h3>How Tags Function</h3>
+                <p>Tags are surrounded by angle brackets like <code>&lt;p&gt;</code>. Most elements have matching starting and ending markers.</p>
+                <pre><code>&lt;p&gt;This is a simple paragraph block in HTML.&lt;/p&gt;</code></pre>
+
+                <!-- Natural Media Integration: Audio Element -->
+                <div class="media-box">
+                    <h4>Audio Supplement: Elements & Nesting Explained</h4>
+                    <p>Listen to this quick audio guide explaining how tags reside nested inside one another to construct an HTML DOM tree.</p>
+                    <audio controls>
+                        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+
+                <h3>Standard Structural Boilerplate</h3>
+                <p>Every standard webpage follows this basic structure:</p>
+                <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My First Webpage&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Welcome to my Academy!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </section>
+
+            <!-- Module 3: CSS -->
+            <section id="mod-css">
+                <h2>Module 3: CSS (Cascading Style Sheets)</h2>
+                <p class="module-intro">CSS translates black and white tag structures into styled, colorful, layouts.</p>
+
+                <h3>Understanding Rulesets</h3>
+                <p>CSS selectors target HTML tags to assign custom presentation attributes (properties & values).</p>
+                <pre><code>/* Styling all body texts */
+body {
+    background-color: #f7fafc;
+    color: #2d3748;
+    font-family: Arial, sans-serif;
+}</code></pre>
+
+                <!-- Natural Media Integration: Video Element -->
+                <div class="media-box">
+                    <h4>Visual Guide: Modifying CSS Live</h4>
+                    <p>Watch this video walk-through demonstrating how changing custom styles updates the viewport and transforms layout structures in real-time.</p>
+                    <video controls poster="https://placehold.co/800x450?text=Click+to+Play+CSS+Video">
+                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <h3>The Three Implementation Methods</h3>
+                <ul>
+                    <li><strong>Inline:</strong> Inserted directly onto individual elements via the <code>style=""</code> parameter.</li>
+                    <li><strong>Internal:</strong> Included within custom <code>&lt;style&gt;</code> container tags inside the head.</li>
+                    <li><strong>External:</strong> Managed on distinct <code>.css</code> files linked into head environments.</li>
+                </ul>
+            </section>
+
+        </div>
+
+
+        <!-- ==================== PAGE 3: CONTACT PAGE ==================== -->
+        <div id="contact-page" class="page-content">
+            <section>
+                <h2>Contact Me & Feedback</h2>
+
+                <div class="form-info">
+                    <!-- Form Details Section -->
+                    <form action="#" method="POST" onsubmit="return false;">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="yourname@treasureacademy.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="topic">Topic</label>
+                            <select id="topic" name="topic" class="form-control">
+                                <option value="general">General Inquiries</option>
+                                <option value="module1">Module 1 Help</option>
+                                <option value="module2">Module 2 Help</option>
+                                <option value="module3">Module 3 Help</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Comment / Message</label>
+                            <textarea id="message" name="message" rows="5" class="form-control" placeholder="Write your questions or comments here..." required></textarea>
+                        </div>
+
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Treasure Academy. All Rights Reserved.</p>
+        <p class="credits">Designed and developed for aspiring web designers and developers</p>
+    </footer>
+
+</body>
+</html>
