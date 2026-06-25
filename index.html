@@ -59,12 +59,13 @@
             display: none;
         }
 
+        /* */
         /* Styling our Navigation using Labels that act as buttons */
         nav {
             background-color: #1a202c;
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
+            flex-wrap: nowrap; /* Prevent wrapping completely */
             position: sticky;
             top: 0;
             z-index: 100;
@@ -81,11 +82,21 @@
             letter-spacing: 0.5px;
             transition: all 0.3s ease;
             display: inline-block;
+            text-align: center;
         }
 
         nav .nav-btn:hover {
             background-color: rgba(255, 255, 255, 0.1);
             color: var(--accent-color);
+        }
+
+        /* Mobile Optimization: Force buttons to line up evenly on a single line */
+        @media screen and (max-width: 600px) {
+            nav .nav-btn {
+                flex: 1; /* Make all buttons take equal width */
+                padding: 1rem 0.5rem; /* Tighten padding for narrow displays */
+                font-size: 0.8rem; /* Slightly smaller text so it fits perfectly */
+            }
         }
 
         /* When a specific radio button is checked, highlight the corresponding navigation label */
@@ -171,6 +182,7 @@
             margin: 0 auto;
         }
 
+        /* */
         .module-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -182,11 +194,26 @@
             background-color: var(--white);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 2rem;
+            overflow: hidden; /* Keeps image corners rounded */
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+        }
+
+        /* Homepage Module Card Images */
+        .module-card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--accent-color);
+        }
+
+        .module-card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
         .module-card h3 {
@@ -198,6 +225,7 @@
         }
 
         .module-badge {
+            align-self: flex-start;
             background-color: var(--primary-color);
             color: var(--white);
             font-size: 0.75rem;
@@ -221,7 +249,7 @@
             cursor: pointer;
             border: none;
             display: block;
-            margin-top: 1.5rem;
+            margin-top: auto; /* Pushes button to bottom of container */
             transition: background-color 0.2s ease;
         }
 
@@ -264,6 +292,7 @@
             padding: 0;
         }
 
+        /* */
         /* --- Naturally Integrated Multimedia Elements --- */
         .media-box {
             background-color: #f7fafc;
@@ -385,8 +414,16 @@
         }
 
         footer .credits {
-            font-size: 0.8rem;
-            opacity: 0.7;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            letter-spacing: 0.5px;
+            line-height: 1.5;
+        }
+
+        footer .candidate-info {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-top: 0.25rem;
         }
     </style>
 </head>
@@ -423,32 +460,35 @@
             <div class="module-grid">
                 <!-- Module 1 Card -->
                 <div class="module-card">
-                    <div>
+                    <img class="module-card-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMOVvKbNvxKNu_j0uFWn6J5YEdEJA3GQsN44OzkKlod1cUAY8SqHHDVbQ&s=10" alt="Introduction to Web Programming Setup" onerror="this.onerror=null; this.src='https://placehold.co/600x400?text=Intro+to+Web';">
+                    <div class="module-card-content">
                         <span class="module-badge">Module 1</span>
-                        <h3>Intro to Web</h3>
+                        <h3>Introduction to web programming</h3>
                         <p>Learn the foundations of the Internet, client-server models, and how browsers render raw web documents into beautiful interactive pages.</p>
+                        <label for="tab-lessons" class="btn-link">Start Module 1</label>
                     </div>
-                    <label for="tab-lessons" class="btn-link">Start Module 1</label>
                 </div>
 
                 <!-- Module 2 Card -->
                 <div class="module-card">
-                    <div>
+                    <img class="module-card-img" src="https://images.unsplash.com/photo-1618477388954-7852f32655ec?q=80&w=600&auto=format&fit=crop" alt="HTML Tag Markup" onerror="this.onerror=null; this.src='https://placehold.co/600x400?text=HTML+Basics';">
+                    <div class="module-card-content">
                         <span class="module-badge">Module 2</span>
                         <h3>HTML Basics</h3>
                         <p>Dive deep into tags, layouts, lists, semantic code templates, and learn how to structure elements correctly on a page.</p>
+                        <label for="tab-lessons" class="btn-link">Start Module 2</label>
                     </div>
-                    <label for="tab-lessons" class="btn-link">Start Module 2</label>
                 </div>
 
                 <!-- Module 3 Card -->
                 <div class="module-card">
-                    <div>
+                    <img class="module-card-img" src="https://web.dev/static/css/image/hero-css.png" alt="CSS Stylesheet design layout" onerror="this.onerror=null; this.src='https://placehold.co/600x400?text=CSS+Design';">
+                    <div class="module-card-content">
                         <span class="module-badge">Module 3</span>
                         <h3>CSS Design</h3>
                         <p>Bring structure to life with styling! Study rulesets, properties, fonts, classes, and master modern webpage aesthetics.</p>
+                        <label for="tab-lessons" class="btn-link">Start Module 3</label>
                     </div>
-                    <label for="tab-lessons" class="btn-link">Start Module 3</label>
                 </div>
             </div>
         </div>
@@ -590,11 +630,9 @@ body {
 
     <!-- Footer -->
     <footer>
-        
-        <p>Enobong Columbus Peter</p>
-        <p>25/CO/IS/093. Informations systems</p>
         <p>&copy; 2026 Treasure Academy. All Rights Reserved.</p>
         <p class="credits">Designed and developed for aspiring web designers and developers</p>
+        <p class="candidate-info">Enobong Columbus Peter | 25/CO/IS/093</p>
     </footer>
 
 </body>
